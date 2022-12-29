@@ -2,13 +2,11 @@ package com.example.healthcare.Controller;
 
 import com.example.healthcare.DTO.User;
 import com.example.healthcare.DTO.UserDTO;
+import com.example.healthcare.DTO.UserRequestDTO;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -17,11 +15,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class UserController {
     @PostMapping("/healthCare")
-    public List<User> callAPI(@RequestBody String user) {
+    public String callAPI(@RequestBody UserRequestDTO userRequestDTO) {
         StringBuffer result = new StringBuffer();
+        String fin="";
 
         try {
             String urlstr = "https://api.odcloud.kr/api/15051012/v1/uddi:4ee0c7ac-82f5-4119-9c8c-b542165acc67?page=1&perPage=26&serviceKey=mwSpkJOt%2BVCEr%2BXvSVXIRw%2Bu1CqsVaONuyFXZPWiItdZAVYsB9Y02dky%2B%2FYJvw4vbQYBJgRFF9JkJY2mzF1ROQ%3D%3D";
@@ -64,9 +64,32 @@ public class UserController {
         }
 
 
+        for (User user: userList){
+            if(userRequestDTO.getT().equals(user.getT())){
+                if(userRequestDTO.getGs().equals("m_h")){
+                    fin = user.getM_h();
+                }
+                else if(userRequestDTO.getGs().equals("m_m")){
+                    fin = user.getM_m();
+                }
+                else if(userRequestDTO.getGs().equals("m_e")){
+                    fin = user.getM_e();
+                }
+                else if(userRequestDTO.getGs().equals("f_h")){
+                    fin = user.getF_h();
+                }
+                else if(userRequestDTO.getGs().equals("f_m")){
+                    fin = user.getF_m();
+                }
+                else{
+                    fin = user.getF_e();
+                }
+            }
+        }
 
+        return fin;
 
-        return userList;
+       /*return userList;*/
     }
 
     private User makeLocationDTO(JSONObject data) {

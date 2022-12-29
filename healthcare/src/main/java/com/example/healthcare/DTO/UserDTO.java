@@ -10,13 +10,13 @@ import org.json.simple.JSONObject;
 public class UserDTO {
     private String t;
 
-    private String m_h;
-    private String m_m;
-    private String m_e;
+    private float m_h;
+    private float m_m;
+    private float m_e;
 
-    private String f_h;
-    private String f_m;
-    private String f_e;
+    private float f_h;
+    private float f_m;
+    private float f_e;
 
 
 }
